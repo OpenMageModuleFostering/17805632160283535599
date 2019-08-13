@@ -1,8 +1,0 @@
-<config>
-  <modules>
-    <Iksula_Orderemail>
-      <active>true</active>
-      <codePool>local</codePool>
-    </Iksula_Orderemail>
-  </modules>
-</config>

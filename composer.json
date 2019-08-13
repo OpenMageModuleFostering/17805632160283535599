@@ -3,10 +3,10 @@
     "type": "magento-module",
     "license": "OSL",
     "homepage": "",
-    "description": "COD order confirmation",
+    "description": "COD order email",
     "authors": [
     {
-        "name": "Keyur",
+        "name": "Keyur ",
         "email": "keyur_patel90@yahoo.com"
     }
 ],
