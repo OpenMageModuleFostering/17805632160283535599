@@ -1,0 +1,37 @@
+<?php 
+	$modid=rand();
+?>
+<div class="venus-blog-menu block">
+	 <div class="block-title">
+        <strong>
+            <span><?php echo $this->__('Latest Comment') ?></span>
+        </strong>
+    </div>
+	<div class="block-content">
+
+	<?php if( count($comments) ): ?>
+		<div class="pavblog-comments">
+		<?php foreach( $comments as $comment ): ?>
+			<div class="pav-comment media">
+				<?php // Removing Spaces
+				  $email = $comment->getData('email');
+				  $email = trim($email);
+				 
+				  // Make all Lower Case
+				  $email = strtolower($email);
+
+				  // Generating Hash
+				  $email_hash = md5($email); ?>
+				<a class="pull-left" href="<?php echo Mage::helper('ves_blog/data')->getPostURL($comment->getData('post_id')); ?>#comment<?php echo $comment->getId();?>" title="<?php echo $comment->getData('user'); ?>">
+						<img class="media-object img-responsive" src="http://www.gravatar.com/avatar/<?php echo $email_hash?>?d=&s=60">
+					</a>
+				<div class="media-body">
+					<p class="comment"><?php  ?><?php echo $this->subString($comment->getData('comment'),$this->getConfig("latest_limit_des"), "..."); ?></p>
+					<span class="comment-author">Posted By <b><?php echo $comment->getData('user'); ?></b></span>
+				</div>
+			</div>
+		<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+	</div>
+</div>

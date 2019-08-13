@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/17805632160283535599",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "COD order confirmation",
+    "authors": [
+    {
+        "name": "Keyur",
+        "email": "keyur_patel90@yahoo.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

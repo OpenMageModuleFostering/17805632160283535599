@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addItem"><type>js_css</type><name>ves_layerslider/lush/css/lush.animations.min.css</name></action>
+			<action method="addItem"><type>js_css</type><name>ves_layerslider/lush/css/lush.min.css</name></action>
+			<action method="addItem"><type>js_css</type><name>ves_layerslider/lush/css/lush.items.min.css</name></action>
+	   		<action method="addItem"><type>skin_css</type><name>ves_layerslider/style.css</name></action>
+	   		<action method="addJs"><script>ves_layerslider/lush/js/jquery.easing.1.3.min.js</script></action>
+	   		<action method="addJs"><script>ves_layerslider/lush/js/jquery.lush.min.js</script></action>
+	  	</reference>
+	</default>
+	<cms_index_index translate="label">
+		<reference name="slideshowTop">
+			<block type="ves_layerslider/list" before="-" name="layerslider.list"/>		
+		</reference>
+	</cms_index_index>
+
+</layout>

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Iksula_Orderemail>
+      <version>0.1.3</version>
+    </Iksula_Orderemail>
+  </modules>
+    <frontend>
+        <routers>
+            <orderemail>
+                <use>standard</use>
+                <args>
+                    <module>Iksula_Orderemail</module>
+                    <frontName>orderemail</frontName>
+                </args>
+            </orderemail>
+        </routers>
+         <layout>
+             <updates>
+                  <orderemail>
+                        <file>orderemail.xml</file>
+                  </orderemail>
+             </updates>
+        </layout>
+        
+     </frontend>   
+  <global>
+    <helpers>
+      <orderemail>
+        <class>Iksula_Orderemail_Helper</class>
+      </orderemail>
+    </helpers>
+  <models>
+    <orderemail>
+    <class>Iksula_Orderemail_Model</class>
+    <resourceModel>orderemail_mysql4</resourceModel>
+    </orderemail>
+    <sales>
+        <rewrite>
+          <order>Iksula_Orderemail_Model_Sales_Order</order>
+        </rewrite>
+    </sales>
+    <orderemail_mysql4>
+    <class>Iksula_Orderemail_Model_Mysql4</class>
+    <entities>      
+        <codorders>
+        <table>cod_orders</table>
+        </codorders>
+        </entities>
+    </orderemail_mysql4>
+  </models>
+  <resources>
+    <orderemail_setup>
+    <setup>
+      <module>Iksula_Orderemail</module>
+      <class>Mage_Eav_Model_Entity_Setup</class>
+    </setup>
+    <connection>
+      <use>core_setup</use>
+    </connection>
+    </orderemail_setup>
+    <orderemail_write>
+    <connection>
+      <use>core_write</use>
+    </connection>
+    </orderemail_write>
+    <orderemail_read>
+    <connection>
+      <use>core_read</use>
+    </connection>
+    </orderemail_read>
+  </resources>
+   
+        <template>
+            <email>
+                <order_custom module="orderemail">
+                    <label>COD new order email</label>
+                    <file>sales/order_new_custom.html</file>
+                    <type>html</type>
+                </order_custom>
+                <cod_order module="orderemail">
+                    <label>COD confirmation email </label>
+                    <file>sales/cod_confirm.html</file>
+                    <type>html</type>
+                </cod_order>
+            </email>
+        </template>   
+  </global>
+</config> 

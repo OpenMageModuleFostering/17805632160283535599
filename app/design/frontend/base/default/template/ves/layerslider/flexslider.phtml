@@ -1,0 +1,61 @@
+<?php 
+ /*------------------------------------------------------------------------
+  # VenusTheme Layer Slider Module 
+  # ------------------------------------------------------------------------
+  # author:    VenusTheme.Com
+  # copyright: Copyright (C) 2012 http://www.venustheme.com. All Rights Reserved.
+  # @license: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+  # Websites: http://www.venustheme.com
+  # Technical Support:  http://www.venustheme.com/
+-------------------------------------------------------------------------*/
+
+$skin = isset($setting['general']['skin'])?$setting['general']['skin']:"";
+$shadow = isset($setting['general']['shadow'])?$setting['general']['shadow']:"";
+
+$flexsetting = isset($setting['flexslider'])?$setting['flexslider']:array();
+?>
+<?php if( count($banners) ) { ?>
+	<?php $id = rand(1,10);?>
+
+   	<!-- Lush Slider (autoload) -->
+      <div id="veslayerslider<?php echo $id; ?>" class="flexslider <?php echo $skin." ".$shadow;?>">
+        <ul class="slides">
+      	<?php
+      		foreach($banners as $k => $banner) {
+      			$slide = array();
+      			if(isset($banner['slide'])) {
+      				$slide = isset($banner['slide'])?$banner['slide']:array();
+      				unset($banner['slide']);
+      			}
+
+      			?>
+      			<!-- Slide <?php echo ($k+1); ?> -->
+            <li class="lush" <?php if(isset($slide['deadtime'])){ ?>data-deadtime="<?php echo $slide['deadtime']; ?>"<?php } ?>>
+		            <?php echo $this->renderBannerElements($banner); ?>
+		        </li>
+      			<?php
+      		}
+      	?>
+      </ul>
+    </div>
+      <!-- /Lush Slider -->
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+      jQuery('#veslayerslider<?php echo $id; ?>').lush({
+          autostart: true // auto start plugin
+         , baseWidth: <?php echo isset($setting['slider_width'])?(int)$setting['slider_width']:1040;?>
+         , baseHeight: <?php echo isset($setting['slider_height'])?(int)$setting['slider_height']:450;?>
+         , flexslider: {
+                easing: '<?php echo isset($flexsetting['easing'])?$flexsetting['easing']:'easeInOutExpo';?>'
+              , slideshow: false
+              , useCSS: false
+              , pauseOnHover: <?php echo (isset($flexsetting['pauseonhover'])&&$flexsetting['pauseonhover'])?'true':'false';?>
+              , direction: '<?php echo isset($flexsetting['direction'])?$flexsetting['direction']:'horizontal';?>'
+              , animation: '<?php echo isset($flexsetting['animation'])?$flexsetting['animation']:'slide';?>'
+              , animationSpeed: <?php echo isset($flexsetting['speed'])?$flexsetting['speed']:'600';?>
+          }
+        });
+      
+    });
+</script>
+<?php } ?>

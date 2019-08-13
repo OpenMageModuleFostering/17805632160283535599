@@ -1,0 +1,54 @@
+<div class="col-xs-12 col-lg-12 col-sm-12 col-12">
+<div class="product">									
+	<a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
+		<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize( $this->getConfig("thumbWidth"), $this->getConfig("thumbHeight") ) ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+	</a>
+
+	<div class="product-details">
+		<?php if( $this->getConfig('show_title') ) : ?>
+		<p class="product-name">
+			<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php
+				$product_name = $this->htmlEscape($_product->getName());
+				echo $this->subString($product_name, $title_maxchar, "");
+				?>
+			</a>
+		</p>
+		<?php endif; ?>
+		
+		<?php if ( $this->getConfig('show_desc') ): ?>
+		<div class="desc">
+			<?php
+				$product_short_desc = $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description');
+				echo $this->subString($product_short_desc, $desc_maxchar, "");
+			 ?>
+		</div>
+		<?php endif; ?>
+		<?php if ( $this->getConfig('show_review') ): ?>
+			<div class="review"><?php echo $this->getReviewsSummaryHtml($_product, 'short') ?></div>
+		<?php endif; ?>
+		<?php if($this->getConfig('show_price')): ?>
+		<?php echo $this->getPriceHtml($_product, true) ?>
+		<?php endif; ?>
+	
+		<div class="productcarousel-action">
+			<?php if( $this->getConfig("show_addcart") ): ?>		                	
+				<?php if($_product->isSaleable()): ?>
+				<button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+				<?php else: ?>
+				<p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php if( $this->getConfig("show_wc") ): ?>
+				<div class="add-to-links">
+					<div class="left">										
+						<a class="add-to-wishlist" href="<?php echo $this->helper('wishlist')->getAddUrl($_product);?>" title="<?php echo $this->__('Wishlist')?>"><?php echo $this->__('Wishlist')?></a>										
+					</div>
+					<div class="right">
+						<a class="add-to-compare" href="<?php echo $this->helper('catalog/product_compare')->getAddUrl($_product);?>" title="<?php echo $this->__('Compare')?>"><?php echo $this->__('Compare')?></a>
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+</div>

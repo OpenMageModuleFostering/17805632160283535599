@@ -1,0 +1,180 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+$helper = Mage::helper("ves_tempcp/framework")->getFramework( );
+$themeConfig = $helper->getConfig();
+
+
+$listing_products_columns = $themeConfig->get("listing_products_columns", 0);
+$listing_products_columns_small = $themeConfig->get("listing_products_columns_small", 0);
+$listing_products_columns_minismall = $themeConfig->get("listing_products_columns_minismall", 0);
+
+$enable_pzoom = $themeConfig->get("category_pzoom", 0);
+
+$MAX_ITEM_ROW    = $themeConfig->get('listing_products_columns', 3);
+$MAX_ITEM_ROW    = $MAX_ITEM_ROW?$MAX_ITEM_ROW:3;
+$MAX_ITEM_ROW_SMALL = $themeConfig->get('listing_products_columns_small', 3) ;
+$MAX_ITEM_ROW_SMALL    = $MAX_ITEM_ROW_SMALL?$MAX_ITEM_ROW_SMALL:3;
+$MAX_ITEM_ROW_MINI  = $themeConfig->get('listing_products_columns_minismall', 2);
+$MAX_ITEM_ROW_MINI    = $MAX_ITEM_ROW_MINI?$MAX_ITEM_ROW_MINI:2;
+
+$cols = $MAX_ITEM_ROW ;
+$span = floor(12/$cols);
+$small = floor(12/$MAX_ITEM_ROW_SMALL);
+$mini = floor(12/$MAX_ITEM_ROW_MINI);
+
+$ajax_cart = $themeConfig->get("enable_ajaxcart", 0);
+$swap_image = $themeConfig->get("enable_swap", 0);
+$enable_short_desc = $themeConfig->get("enable_short_desc", 0);
+$quickview = $themeConfig->get("enable_quickview", 0);
+$popup_quickview_width = $themeConfig->get("popup_quickview_width", "60%");
+$popup_quickview_height = $themeConfig->get("popup_quickview_height", "80%");
+
+$popup_image_width = $themeConfig->get("popup_image_width", 600);
+$popup_image_width = !empty($popup_image_width)?(int)$popup_image_width: 600;
+$popup_image_height = $themeConfig->get("popup_image_height", 600);
+$popup_image_height = !empty($popup_image_height)?(int)$popup_image_height: 600;
+
+$list_image_width = $themeConfig->get("listing_image_width", 300);
+$list_image_width = !empty($list_image_width)?(int)$list_image_width: 300;
+$list_image_height = $themeConfig->get("listing_image_height", 300);
+$list_image_height = !empty($list_image_height)?(int)$list_image_height: 300;
+
+$swap_image_number = $themeConfig->get("swap_image_number", 0);
+$swap_image_number = !empty($swap_image_number)?(int)$swap_image_number: 0;
+
+$number_day_new = $themeConfig->get("number_day_new", 3);
+
+$desc_maxchar = "200";
+$enable_new_icon = 1;
+$enable_sale_icon = 1;
+$show_title = 1;
+$show_review = 1;
+$show_price = 1;
+$show_addcart = 1;
+$show_compare_wishlist = 1;
+
+if(!isset($default_layout)) {
+    $default_layout = $themeConfig->get("default_list_layout", "default.phtml");
+}
+
+$layout_mode = $this->getMode();
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+    $_productCollection=$this->getLoadedProductCollection();
+
+    $_helper = $this->helper('catalog/output');
+
+?>
+<?php $_collectionSize = $_productCollection->count() ?>
+<?php $_columnCount = !empty($cols)?$cols:$this->getColumnCount(); ?>  
+<div class="category-products">
+    <?php echo $this->getToolbarHtml(); ?>
+    <?php // List mode ?>
+    <?php if($this->getMode()!='grid'): ?>
+    <?php $_iterator = 0; ?>
+        <div class="products-list" id="products-list">
+            <?php $i=0; foreach ($_productCollection as $_product): ?>
+
+                <?php if ($products_layout_path = Mage::helper("ves_tempcp/framework")->getLayoutPath("list/".$default_layout) ) { ?>
+
+                <?php require ($products_layout_path); ?>
+
+                <?php } ?>
+            <?php endforeach ?>
+            <script type="text/javascript">decorateGeneric($$('div.products-row'), ['odd','even','first','last'])</script>
+
+        </div>
+    <?php else: ?>
+
+    <?php // Grid Mode ?>
+
+        <div class="products-block" id="products-grid">
+        <?php $i=0; foreach ($_productCollection as $_product): ?>
+            <?php if ($i++%$_columnCount==0): ?>
+            <div class="row products-row products-grid equal">
+            <?php endif ?>
+
+                <?php if ($products_layout_path = Mage::helper("ves_tempcp/framework")->getLayoutPath("list/".$default_layout) ) { ?>
+
+                <?php require ($products_layout_path); ?>
+
+                <?php } ?>
+
+            <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+            </div>
+            <?php endif ?>
+            <?php endforeach ?>
+            <script type="text/javascript">decorateGeneric($$('div.products-row'), ['odd','even','first','last'])</script>
+
+        </div>
+    <?php endif; ?>
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+</div>
+
+
+ <?php if( $enable_pzoom ) {  ?>
+            <script type="text/javascript"><!--
+                jQuery(document).ready(function() {
+                    jQuery('.colorbox').colorbox({
+                        overlayClose: true,
+                        opacity: 0.5,
+                        rel: false,
+                        onLoad:function(){
+                            jQuery("#cboxNext").remove(0);
+                            jQuery("#cboxPrevious").remove(0);
+                            jQuery("#cboxCurrent").remove(0);
+                        }
+                    });
+                     
+                });
+                
+            //--></script>
+<?php } ?>
+
+<?php if ($quickview) { ?>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery(".ves-colorbox").colorbox({
+                width: '<?php echo $popup_quickview_width; ?>', 
+                height: '<?php echo $popup_quickview_height; ?>',
+                overlayClose: true,
+                opacity: 0.5,
+                iframe: true, 
+        });
+        
+    });
+</script>
+<?php } ?>
+

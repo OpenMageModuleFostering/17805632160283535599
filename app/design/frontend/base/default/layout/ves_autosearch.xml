@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+	   		<action method="addItem"><type>skin_css</type><name>ves_autosearch/style.css</name></action>
+	  	</reference>
+		<remove name="topSearch"/>
+        <reference name="header">
+            <block type="ves_autosearch/autosearch" name="top.search" as="topSearch" before="-"/>
+        </reference>
+    </default>
+</layout>

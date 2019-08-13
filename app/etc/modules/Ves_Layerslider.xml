@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ves_Layerslider>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Ves_Layerslider>
+    </modules>
+</config>

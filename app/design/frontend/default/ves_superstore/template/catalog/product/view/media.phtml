@@ -1,0 +1,66 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+?>
+<?php
+    $theme = Mage::helper("ves_tempcp/framework")->getFramework( );
+    $themeConfig = $theme->getConfig();
+    $main_image_width = (int)$themeConfig->get("main_image_width", 265);
+    $main_image_height = (int)$themeConfig->get("main_image_height", 265);
+    $additional_image_width = (int)$themeConfig->get("additional_image_width", 80);
+    $additional_image_height = (int)$themeConfig->get("additional_image_height", 80);
+
+    $popup_image_width = $themeConfig->get("popup_image_width", 600);
+    $popup_image_width = !empty($popup_image_width)?(int)$popup_image_width: 600;
+    $popup_image_height = $themeConfig->get("popup_image_height", 600);
+    $popup_image_height = !empty($popup_image_height)?(int)$popup_image_height: 600;
+
+    $default_layout = $themeConfig->get("default_view_layout", "default.phtml");
+
+    $default_layout = str_replace(".phtml", "", $default_layout);
+
+    $_product = $this->getProduct();
+    $_helper = $this->helper('catalog/output');
+    // Get the Special Price
+    $specialprice = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialPrice(); 
+    // Get the Special Price FROM date
+    $specialPriceFromDate = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialFromDate();
+    // Get the Special Price TO date
+    $specialPriceToDate = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialToDate();
+    // Get Current date
+    $today =  time();
+
+    if ($media_layout_path = Mage::helper("ves_tempcp/framework")->getLayoutPath("view/".$default_layout."/media.phtml") ) { 
+
+      require ($media_layout_path);
+
+    }
+?>

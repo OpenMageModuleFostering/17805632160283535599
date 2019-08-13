@@ -1,0 +1,56 @@
+<?php
+ /*------------------------------------------------------------------------
+  # VenusTheme Layer Slider Module 
+  # ------------------------------------------------------------------------
+  # author:    VenusTheme.Com
+  # copyright: Copyright (C) 2012 http://www.venustheme.com. All Rights Reserved.
+  # @license: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+  # Websites: http://www.venustheme.com
+  # Technical Support:  http://www.venustheme.com/
+-------------------------------------------------------------------------*/
+
+$slider_background = "";
+if(isset($setting['general']) && isset($setting['general']['src']) && $setting['general']['src']) {
+	$slider_background = "background-image: url('".$setting['general']['src']."'); background-size: ".$setting['general']['size'].";background-position:".$setting['general']['position'].";background-repeat: ". $setting['general']['repeat'].";";
+}
+$skin = isset($setting['general']['skin'])?$setting['general']['skin']:"";
+$shadow = isset($setting['general']['shadow'])?$setting['general']['shadow']:"";
+?>
+<?php if( count($banners) ) { ?>
+	<?php $id = rand(1,10);?>
+
+   	<!-- Lush Slider (autoload) -->
+      <div id="veslayerslider<?php echo $id; ?>" class="lush-slider <?php echo $skin." ".$shadow;?>" style="<?php echo $slider_background; ?>">
+
+      	<?php
+      		foreach($banners as $k => $banner) {
+      			$slide = array();
+      			if(isset($banner['slide'])) {
+      				$slide = isset($banner['slide'])?$banner['slide']:array();
+      				unset($banner['slide']);
+      			}
+
+      			?>
+      			<!-- Slide <?php echo ($k+1); ?> -->
+      			<div class="lush" <?php if(isset($slide['deadtime'])){ ?>data-deadtime="<?php echo $slide['deadtime']; ?>"<?php } ?>>
+		            <?php echo $this->renderBannerElements($banner); ?>
+		        </div>
+      			<?php
+      		}
+      	?>
+      </div>
+      <!-- /Lush Slider -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+	    // make sure to add the correct class for the mode
+	    jQuery('#veslayerslider<?php echo $id; ?>').lush({
+	     
+		    // PLUGIN OPTIONS
+		    autostart: true // auto start plugin
+		    , baseWidth: <?php echo isset($setting['slider_width'])?(int)$setting['slider_width']:1040;?> // orignal slide widht
+		    , baseHeight: <?php echo isset($setting['slider_height'])?(int)$setting['slider_height']:450;?> // and original slide height (ratio ~2.5)
+	    });
+    });
+</script>
+<?php } ?>

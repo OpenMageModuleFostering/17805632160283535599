@@ -1,0 +1,137 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+
+<!-- Carousel -->
+<?php 
+$theme = Mage::helper("ves_tempcp/framework")->getFramework( );
+$themeConfig = $theme->getConfig();
+
+$swap_image = $themeConfig->get("enable_swap", 0);
+$quickview = $themeConfig->get("enable_quickview", 0);
+
+$enable_pzoom = $themeConfig->get("category_pzoom", 0);
+$popup_image_width = $themeConfig->get("popup_image_width", 600);
+$popup_image_width = !empty($popup_image_width)?(int)$popup_image_width: 600;
+$popup_image_height = $themeConfig->get("popup_image_height", 600);
+$popup_image_height = !empty($popup_image_height)?(int)$popup_image_height: 600;
+$swap_image_number = $themeConfig->get("swap_image_number", 0);
+$swap_image_number = !empty($swap_image_number)?(int)$swap_image_number: 0;
+
+$list_image_width = $themeConfig->get("listing_image_width", 300);
+$list_image_width = !empty($list_image_width)?(int)$list_image_width: 300;
+$list_image_height = $themeConfig->get("listing_image_height", 300);
+$list_image_height = !empty($list_image_height)?(int)$list_image_height: 300;
+
+$popup_quickview_width = $themeConfig->get("popup_quickview_width", "60%");
+$popup_quickview_height = $themeConfig->get("popup_quickview_height", "80%");
+
+$desc_maxchar = "200";
+$enable_new_icon = 1;
+$enable_sale_icon = 1;
+$show_title = 1;
+$show_review = 1;
+$show_price = 1;
+$show_addcart = 1;
+$show_compare_wishlist = 1;
+/*end get setting*/
+
+
+$auto_play_mode = 1;
+
+$title_maxchar = 100;
+$interval = 6000;
+
+$auto_play = $auto_play_mode?"true":"false";
+$active = 'latest';
+
+
+
+$cols = $themeConfig->get('product_related_column', 3);
+$cols = !empty($cols)?$cols:3;
+
+$itemsperpage = $cols;
+
+$span = 12/$cols; 
+$item = count($this->getItemCollection()->getItems());
+$j = ceil($item/$cols);
+
+$_helper = $this->helper('catalog/output');
+
+$items = $this->getItemCollection()->getItems();
+
+
+if(count($this->getItemCollection()->getItems())): ?>	
+	<div id="upsell" class="carousel slide" data-interval="false">	
+		<div class="box-collateral box-up-sell">
+			<div class="block-title">
+				<strong>
+					<span><?php echo $this->__('Upsell Products') ?></span>
+				</strong>				
+				<!-- Controls -->
+				<?php if($item > $cols):?>
+				<div class="carousel-controls" dir="ltr">
+				<a class="carousel-control pull-right" href="#upsell" data-slide="next">					
+					<span class="cars-icon cars-next"><i class="fa fa-angle-right"></i></span>
+				</a>
+				<a class="carousel-control pull-left" href="#upsell" data-slide="prev">
+					<span class="cars-icon cars-prev"><i class="fa fa-angle-left"></i></span>
+				</a>				
+				
+				</div>
+				<?php endif?>
+			</div>
+			<div class="carousel-inner"> 
+				<?php $this->resetItemsIterator() ?>
+				<?php
+				$pages = array_chunk( $items, $itemsperpage);
+				?>
+				<?php foreach ($pages as  $k => $_productCollection ) {   ?>
+						<div class="item <?php if($k==0) {?>active<?php } ?> product-grid no-margin">
+
+							<?php if($product_module_path = Mage::helper("ves_tempcp/framework")->getLayoutPath("product_module.phtml")) { ?>
+						   	 	<?php require ($product_module_path); ?>
+
+						    <?php } ?>
+						</div>
+				<?php } ?>
+				
+			</div>
+		</div>	  
+	</div>
+	<?php if($item > $cols):?>
+		<script type="text/javascript">	
+			jQuery('.carousel').carousel({
+				interval:<?php echo ( $auto_play_mode?$interval:'false') ;?>,auto:<?php echo $auto_play;?>,pause:'hover', cycle: true
+			});
+		</script>
+	<?php endif?>
+
+<?php endif ?>
+
+
+
